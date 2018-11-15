@@ -1,0 +1,128 @@
+{% extends 'frontend/base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+
+<div class="uk-section uk-section-large uk-background-cover" data-src="{{ asset('https://images.unsplash.com/photo-1518005076933-9ef6bec005cb?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=9407a699237c0fca1077dc18eac6f467&auto=format&fit=crop&w=1267&q=80') }}" uk-img>
+  <div class="uk-container tm-container-medium">
+    <div class="uk-text-center light-accent">
+      <h3 class="small-header">BYJ CONSTRUMETAL</h3>
+      <h1 class="responsive-title">¿Tienes algunda duda?</h1>
+      <h1 class="responsive-title">Contáctanos</h1>
+      <p class="uk-width-large@m uk-margin-auto">¿Tienes alguna duda, cotización o pregunta referente a nuestros productos?. Déjanos tus datos y te contactaremos a la brevedad.</p>
+    </div>
+  </div>
+</div>
+
+<div class="uk-section uk-section-large">
+
+  <div class="uk-container tm-container-medium">
+
+    <div class="uk-child-width-1-2@s uk-flex uk-flex-middle" uk-grid>
+      <div class="uk-text-left@s uk-text-center">
+        <h1 class="responsive-title uk-width-xlarge">Formulario de Contacto</h1>
+        <p>Déjanos tus datos relevantes y te contactaremos a la brevedad.</p>
+      </div>
+      <div>
+
+        <div class="uk-border-rounded uk-box-shadow-medium uk-card uk-card-body">
+
+          <form action="">
+
+            <div class="uk-margin">
+              <h3>¿Cómo te podemos ayudar?</h3>
+            </div>
+
+              <div class="uk-margin">
+                <input type="text" id="name" placeholder="Nombre" class="uk-form-large uk-input">
+              </div>
+
+              <div class="uk-margin">
+                <input type="text" id="phone" placeholder="Teléfono" class="uk-form-large uk-input">
+              </div>
+
+              <div class="uk-margin">
+                <input type="text" id="mail" placeholder="Correo" class="uk-form-large uk-input">
+              </div>
+
+              <div class="uk-margin">
+                <textarea type="text" id="message" placeholder="Mensaje" class="uk-form-large uk-textarea"></textarea>
+              </div>
+
+              <div class="uk-margin">
+                <div id="loader" class="uk-hidden" uk-spinner></div>
+                <a id="sendmail-button" class="uk-button link-a">Enviar</a>
+              </div>
+
+          </form>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+
+   $('#sendmail-button').click(function(){
+
+
+      var name = $('#name').val();
+      var phone = $('#phone').val();
+      var mail = $('#mail').val();
+      var message = $('#message').val();
+
+   if(name!="" && mail!="" && message!=""){
+
+     var contact_form_data = new FormData();
+     contact_form_data.append('name', name);
+     contact_form_data.append('phone', phone);
+     contact_form_data.append('mail', mail);
+     contact_form_data.append('message', message);
+
+     $(this).addClass('uk-disabled');
+     $('#loader').removeClass('uk-hidden');
+
+     $.ajax({
+       type: 'post',
+       url: '{{ path('request-sendcontactmail') }}',
+       data: contact_form_data,
+       processData: false,
+       async: true,
+       contentType: false,
+       cache: false,
+       success: function(data){
+
+           $('#sendmail-button').removeClass('uk-disabled');
+           $('#loader').addClass('uk-hidden');
+
+         UIkit.notification({
+           message: 'Recibimos tu mail',
+           status: 'primary',
+           pos: 'bottom-right',
+           timeout: 2000
+        });
+
+       }
+     });
+   }else{
+
+     UIkit.notification({
+       message: 'Hay Campos Vacíos',
+       status: 'danger',
+       pos: 'bottom-right',
+       timeout: 2000
+    });
+
+   }
+
+   });
+
+</script>
+
+{% include 'frontend/components/footer.html.twig' %}
+
+{% endblock %}

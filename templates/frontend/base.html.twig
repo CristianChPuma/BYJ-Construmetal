@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}{% endblock %} | ByJ Construmetal</title>
+        <link rel="shortcut icon" href="{{ asset('components/logo-fav.png') }}">
+        <meta name="viewport" content="width=device-width">
+        {% block stylesheets %}
+           <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.22/css/uikit.min.css" />
+           <link href="https://fonts.googleapis.com/css?family=Glegoo|Muli" rel="stylesheet">
+           <link rel="stylesheet" href="{{ asset('build/app.css') }}">
+           <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        {% endblock %}
+    </head>
+    <body>
+        <div id="main-container">
+
+          <div class="left-panel uk-visible@s">
+            <div class="uk-padding">
+              <img src="{{ asset('components/logo.svg') }}" alt="">
+            </div>
+          </div>
+          <div class="right-panel uk-width-1-1@s">
+            <div class="uk-overflow-hidden">
+              {% include 'frontend/components/navigator.html.twig' %}
+              {% block body %}{% endblock %}
+            </div>
+          </div>
+
+        </div>
+
+     <div id="loaderweb">
+
+     </div>
+
+             <div class="uk-position-center">
+               <img id="image-loader" src="{{ asset('components/logo.svg') }}" width="100" alt="">
+             </div>
+
+        {% block javascripts %}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.22/js/uikit.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.22/js/uikit-icons.min.js"></script>
+                   <script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
+        <script type="text/javascript" src="{{ asset('build/app.js') }}"></script>
+        <script>
+
+        $(document).ready(function(){
+          $('#main-container').imagesLoaded( function() {
+              $('#loaderweb').addClass('start-anim');
+              $('#image-loader').addClass('start-anim');
+          });
+        });
+
+        </script>
+        {% endblock %}
+    </body>
+</html>
